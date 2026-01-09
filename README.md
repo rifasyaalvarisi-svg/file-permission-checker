@@ -1,120 +1,185 @@
 # File Permission Checker
 
-A PyQt5 desktop application for scanning, analyzing, and securing file permissions on Unix-based systems.
+![Version](https://img.shields.io/badge/Version-2.0.0-blue)
+![Python](https://img.shields.io/badge/Python-3.8+-green)
+![PyQt6](https://img.shields.io/badge/PyQt6-6.6+-purple)
+![License](https://img.shields.io/badge/License-MIT-yellow)
 
-## Overview
+Aplikasi desktop PyQt6 untuk memindai, menganalisis, dan mengamankan izin file pada sistem berbasis Unix. Fitur antarmuka pengguna modern dengan tema gelap dan desain glassmorphism, analisis risiko real-time, enkripsi aman, manajemen backup, dan verifikasi integritas yang komprehensif.
 
-File Permission Checker provides a graphical interface for managing file permissions across directories. It identifies security risks, suggests fixes, and includes features for backup, encryption, and integrity verification.
+## 🌟 Fitur
 
-## Features
+### Pemindai Izin
+- **Pemindaian Real-time**: Analisis izin file dengan pelacakan progres
+- **Klasifikasi Risiko**: Kategorikan file secara otomatis menjadi Risiko Tinggi, Sedang, atau Rendah
+- **Deteksi Cerdas**: Identifikasi file sensitif (kunci, kredensial, konfigurasi, dll.)
+- **Mode Simbolik & Oktal**: Tampilkan izin dalam kedua format
+- **Penyaringan & Pencarian**: Filter berdasarkan tingkat risiko atau cari berdasarkan nama file
 
-- Permission scanning with risk analysis
-- Automatic permission fixing based on configurable rules
-- AES-256 file encryption with password protection
-- Automatic backup before permission changes
-- SHA-256 integrity verification
-- Export to CSV and JSON formats
-- SQLite audit logging
+### Pipeline Keamanan
+- **Alur Kerja Terorkestrasi**: Pindai → Backup → Hash → Enkripsi → Ubah Izin → Verifikasi
+- **Kemampuan Rollback**: Rollback otomatis jika terjadi kesalahan
+- **Pelacakan Progres**: Pembaruan progres real-time untuk setiap langkah
+- **Audit Logging**: Catatan lengkap dari semua operasi
 
-## Requirements
+### Sistem Enkripsi
+- **Enkripsi Fernet (AES-128-CBC)**: Enkripsi simetrik yang aman
+- **Meter Kekuatan Kata Sandi**: Analisis kekuatan kata sandi real-time
+- **Pembatasan Tingkat**: Perlindungan terhadap serangan brute-force (5 percobaan/5 menit)
+- **Penanganan Memori Aman**: Data sensitif ditangani dengan buffer memori aman
+- **Sistem Karantina**: File asli dipindahkan ke folder `.quarantine/`
+- **Pemrosesan Batch**: Enkripsi/dekripsi banyak file dan folder
 
-- Python 3.8 or higher
-- PyQt5
-- cryptography
+### Manajemen Backup
+- **Backup Otomatis**: Buat backup sebelum perubahan izin
+- **Riwayat Versi**: Lacak riwayat backup dengan timestamp
+- **Pemulihan Satu Klik**: Pulihkan file dari riwayat backup
+- **Verifikasi SHA-256**: Verifikasi integritas backup
 
-## Installation
+### Verifikasi Integritas
+- **Hashing SHA-256**: Hitung dan verifikasi hash file
+- **Audit Logging**: Catat semua peristiwa keamanan dengan checksum
+- **Integritas Database**: Verifikasi integritas database SQLite
+- **Kepatuhan CIA Triad**: Status Confidentiality, Integrity, Availability
+
+### Export & Pelaporan
+- **Export CSV**: Ekspor hasil pemindaian ke format CSV
+- **Export JSON**: Ekspor laporan detail dengan statistik
+- **File Checksum**: Hasilkan file checksum `.sha256` untuk verifikasi
+
+## 📋 Persyaratan
+
+- **Python**: 3.8 atau lebih tinggi
+- **PyQt6**: 6.6 atau lebih tinggi
+- **cryptography**: Untuk enkripsi/dekripsi
+- **Linux/Unix**: Sistem izin file diperlukan (bukan Windows)
+
+## 🚀 Instalasi
 
 ```bash
-git clone https://github.com/zuckdorsey/file-permission-checker.git
+# Kloning repositori
+git clone https://github.com/rifasyaalvarisi-svg/file-permission-checker
 cd file-permission-checker
 
+# Buat virtual environment
 python -m venv venv
 source venv/bin/activate
 
+# Instal dependensi
 pip install -r requirements.txt
-```
 
-## Usage
-
-```bash
+# Jalankan aplikasi
 python main.py
 ```
 
-### Scanning
+## 📖 Penggunaan
 
-1. Enter the folder path or use the browse button
-2. Click Scan to analyze permissions
-3. Results are displayed in the table with risk indicators
+### Mulai Cepat
 
-### Fixing Permissions
+1. **Luncuran Aplikasi**
+   ```bash
+   python main.py
+   ```
 
-1. Click Fix Risky to fix all high-risk files
-2. Or right-click specific files for individual actions
-3. Use Advanced Settings for custom permission values
+2. **Pindai Folder**
+   - Seret & jatuhkan folder ke jendela, ATAU
+   - Klik "Browse" untuk memilih folder, ATAU
+   - Masukkan path secara manual dan tekan Enter
 
-### Encryption
+3. **Lihat Hasil**
+   - File ditampilkan dalam tabel yang dapat diurutkan
+   - Indikator risiko: 🔴 Tinggi, ⚠️ Sedang, ✅ Rendah
+   - Gunakan filter untuk menampilkan file berisiko saja
 
-1. Navigate to the Encryption tab
-2. Add files using the file browser
-3. Enter a password and click Start Processing
+4. **Perbaiki Izin**
+   - Klik "Harden Permissions" untuk perbaikan otomatis, ATAU
+   - Pilih file tertentu dan klik "Harden Selected"
+   - Pilih perbaikan cepat atau pengaturan lanjutan
 
-### Backup
+### Tab Enkripsi
 
-1. Navigate to the Backups tab
-2. Select a folder and create a backup
-3. Restore from backup history when needed
+1. **Tambah File/Folder**
+   - Klik "Add Files" untuk file individual
+   - Klik "Add Folder" untuk menambah semua file secara rekursif
 
-## Risk Classification
+2. **Masukkan Kata Sandi**
+   - Gunakan kolom kata sandi
+   - Klik "Generate Secure Password" untuk kata sandi acak
+   - Periksa indikator kekuatan
 
-Files are classified based on sensitivity:
+3. **Enkripsi/Dekripsi**
+   - Beralih antara mode Enkripsi/Dekripsi
+   - Klik tombol proses untuk memulai
 
-| Risk Level | Description | Recommended Permission |
-|------------|-------------|------------------------|
-| High | Sensitive files (keys, credentials, configs) | 600 (owner read/write only) |
-| Medium | Configuration and script files | 640 (owner + group read) |
-| Low | Standard files and documents | 644 (world readable) |
+### Tab Backup
 
-## Project Structure
+1. **Buat Backup**
+   - Pilih folder atau file
+   - Klik "Create Backup"
+
+2. **Pulihkan**
+   - Pilih backup dari riwayat
+   - Klik "Restore Selected"
+   - Pilih folder tujuan
+
+## 🎨 Struktur Proyek
 
 ```
 file-permission-checker/
-├── main.py                 # Application entry point
-├── style.qss               # Qt stylesheet
+├── main.py                     # Titik masuk aplikasi & layar splash
+├── style.qss                   # Qt stylesheet (tema gelap)
+├── scan_history.db             # Database SQLite (dibuat otomatis)
 ├── core/
-│   ├── scanner.py          # File scanning
-│   ├── permission_fixer.py # Permission modification
-│   ├── security.py         # Encryption/decryption
-│   ├── backup.py           # Backup management
-│   ├── integrity.py        # Hash verification
-│   ├── pipeline.py         # Workflow orchestration
-│   └── database.py         # SQLite logging
+│   ├── __init__.py
+│   ├── scanner.py              # Pemindaian file dengan analisis risiko
+│   ├── permission_fixer.py     # Logika modifikasi izin
+│   ├── security.py             # Manajemen kata sandi & enkripsi
+│   ├── encryption_manager.py   # Worker enkripsi/dekripsi file
+│   ├── backup.py               # Pembuatan & pemulihan backup
+│   ├── integrity.py            # SHA-256 & audit logging
+│   ├── pipeline.py             # Orkestrasi alur kerja
+│   ├── database.py             # Operasi SQLite
+│   └── secure_memory.py        # Penanganan string/buffer aman
 ├── ui/
-│   ├── main_window.py      # Main window
-│   ├── dialogs.py          # Dialog windows
-│   └── modern_widgets.py   # Custom widgets
+│   ├── __init__.py
+│   ├── main_window.py          # Jendela aplikasi utama
+│   ├── dialogs.py              # Jendela dialog
+│   ├── modern_widgets.py       # Komponen UI kustom
+│   └── widget.py               # Widget tambahan
 ├── utils/
-│   ├── constants.py        # Configuration
-│   └── helpers.py          # Utility functions
-└── docs/
-    ├── RISK_LEVEL_SPECIFICATION.md
-    ├── RISK_TO_PERMISSION_MAPPING.md
-    └── UI_DESIGN_SYSTEM.md
+│   ├── __init__.py
+│   ├── constants.py            # Konfigurasi & konstanta
+│   └── helpers.py              # Fungsi utilitas
+├── docs/
+│   ├── ARCHITECTURE.md         # Gambaran arsitektur sistem
+│   ├── RISK_LEVEL_SPECIFICATION.md
+│   ├── RISK_TO_PERMISSION_MAPPING.md
+│   └── UI_DESIGN_SYSTEM.md
+└── permission_logs/            # Log perubahan izin
 ```
 
-## Configuration
+## ⚙️ Konfigurasi
 
-Custom permission rules can be defined in `utils/constants.py`:
+Aturan kustom dapat didefinisikan di `utils/constants.py`:
 
 ```python
+# Aturan sensitivitas file (izin oktal)
 CUSTOM_RULES = {
+    # Sensitivitas tinggi - baca/tulis pemilik saja (600)
     '.env': '600',
-    '.pem': '600',
     '.key': '600',
+    '.pem': '600',
+    '.crt': '600',
     'id_rsa': '600',
-    '.conf': '644',
-    '.sh': '755',
+    'authorized_keys': '600',
+    
+    # Direktori - pemilik saja (700)
+    '.ssh': '700',
+    '.gnupg': '700',
+    '.git': '700',
 }
 
+# Pemetaan risiko ke izin
 RISK_TO_PERMISSION = {
     'High': {'file': '600', 'dir': '700'},
     'Medium': {'file': '640', 'dir': '750'},
@@ -122,64 +187,150 @@ RISK_TO_PERMISSION = {
 }
 ```
 
-## Security Pipeline
+## 🔒 Pipeline Keamanan
 
-The application executes permission changes through a secure pipeline:
+Aplikasi menjalankan perubahan izin melalui pipeline yang aman:
 
-1. Scan files and determine risk levels
-2. Create backup of current state
-3. Generate hash of original files
-4. Apply encryption if requested
-5. Modify permissions
-6. Verify integrity with new hash
-7. Rollback on any failure
+```
+┌─────────────┐
+│    SCAN     │  Validasi file ada
+└──────┬──────┘
+       ▼
+┌─────────────┐
+│   BACKUP    │  Buat backup status saat ini
+└──────┬──────┘
+       ▼
+┌─────────────┐
+│  HASH_BEFORE│  Hitung SHA-256 sebelum perubahan
+└──────┬──────┘
+       ▼
+┌─────────────┐
+│   ENCRYPT   │  Enkripsi backup (opsional)
+└──────┬──────┘
+       ▼
+┌─────────────┐
+│    CHANGE   │  Terapkan izin baru
+└──────┬──────┘
+       ▼
+┌─────────────┐
+│  HASH_AFTER │  Verifikasi integritas
+└──────┬──────┘
+       ▼
+┌─────────────┐
+│   VERIFY    │  Periksa hash cocok (untuk file tidak terenkripsi)
+└─────────────┘
+       │
+       ▼ Jika langkah gagal:
+┌─────────────┐
+│  ROLLBACK   │  Pulihkan status sebelumnya
+└─────────────┘
+```
 
-## Keyboard Shortcuts
+## 📊 Klasifikasi Risiko
 
-| Shortcut | Action |
-|----------|--------|
-| Ctrl+S | Start scan |
-| Ctrl+F | Fix permissions |
-| Ctrl+E | Export to CSV |
-| F5 | Refresh view |
+File diklasifikasikan berdasarkan **sensitivitas + matriks izin**:
 
-## Export Formats
+| Sensitivitas | Izin | Tingkat Risiko | Deskripsi |
+|-------------|------|----------------|-----------|
+| Tinggi | > 600 | 🔴 Tinggi | File sensitif dengan izin longgar |
+| Tinggi | ≤ 600 | ✅ Rendah | Sensitif tapi diamankan dengan benar |
+| Sedang | > 644 | ⚠️ Sedang | Konfigurasi dengan akses tulis |
+| Sedang | ≤ 644 | ✅ Rendah | Konfigurasi diamankan dengan benar |
+| Rendah | Apa saja | ✅ Rendah | File tidak sensitif |
+| Symlink | Berbahaya | 🔴 Tinggi | Symlink ke path sensitif |
+
+### Deteksi Sensitivitas
+
+**Sensitivitas Tinggi:**
+- `.env`, `.key`, `.pem`, `.crt`, `.p12`, `.pfx`
+- `id_rsa`, `id_dsa`, `id_ecdsa`, `id_ed25519`
+- `authorized_keys`, `known_hosts`
+- `.ssh`, `.gnupg`, `private`, `secrets`
+
+**Sensitivitas Sedang:**
+- `.conf`, `.config`, `.ini`, `.yaml`, `.yml`
+- `.sql`, `.db`, `.sqlite`
+- `docker-compose`, `dockerfile`, `nginx.conf`
+
+## ⌨️ Pintasan Keyboard
+
+| Pintasan | Tindakan |
+|----------|----------|
+| `Ctrl+S` | Mulai pemindaian |
+| `Ctrl+F` | Perbaiki izin |
+| `Ctrl+E` | Export ke CSV |
+| `F5` | Segarkan tampilan |
+
+## 📤 Format Export
 
 ### CSV
 
 ```csv
-Filename,Path,Mode,Symbolic,Risk Level,Expected,Size,Modified
-.env,config/.env,644,rw-r--r--,High,600,1.2 KB,2025-01-15
+Name,Path,Mode,Symbolic,Risk,Expected,Size,Modified
+.env,config/.env,644,rw-r--r--,High,600,1.2KB,2025-01-15
 ```
 
 ### JSON
 
 ```json
 {
-  "scan_date": "2025-01-15T10:30:00",
-  "folder": "/path/to/project",
-  "total_files": 500,
-  "statistics": {
+  "timestamp": "2025-01-15T10:30:00",
+  "stats": {
     "high_risk": 12,
     "medium_risk": 45,
-    "low_risk": 443
+    "low_risk": 443,
+    "total_files": 500
   },
   "files": [...]
 }
 ```
 
-## Documentation
+## 🔐 Fitur Keamanan
 
-Additional documentation is available in the `docs/` directory:
+### Detail Enkripsi
+- **Algoritma**: Fernet (AES-128-CBC dengan HMAC)
+- **Turunan Kunci**: PBKDF2HMAC-SHA256 (480.000 iterasi)
+- **Format**: `[salt (16B)][verify_hash (32B)][encrypted_data]`
+- **Pembatasan Tingkat**: 5 percobaan per jendela 5 menit
 
-- Risk Level Specification: Detailed risk classification criteria
-- Risk to Permission Mapping: Permission recommendations by risk level
-- UI Design System: Theme and component specifications
+### Penanganan Memori Aman
+- Data sensitif disimpan dalam buffer aman
+- Penghapusan memori otomatis
+- Tidak ada data sensitif di swap
 
-## License
+### Audit Logging
+- Semua tindakan dicatat dengan checksum SHA-256
+- Jejak audit anti-manipulasi
+- Tingkat keparahan: info, warning, critical
 
-MIT License
+## 📚 Dokumentasi
 
-## Author
+Dokumentasi tambahan tersedia di `docs/`:
 
-zuckdorsey - https://github.com/zuckdorsey
+- **ARCHITECTURE.md**: Gambaran umum arsitektur sistem
+- **RISK_LEVEL_SPECIFICATION.md**: Klasifikasi risiko detail
+- **RISK_TO_PERMISSION_MAPPING.md**: Rekomendasi izin
+- **UI_DESIGN_SYSTEM.md**: Spesifikasi tema dan komponen
+
+## 🤝 Berkontribusi
+
+1. Fork repositori
+2. Buat branch fitur (`git checkout -b feature/layanan`)
+3. Commit perubahan (`git commit -m 'Tambah layanan menarik'`)
+4. Push ke branch (`git push origin feature/layanan`)
+5. Buka Pull Request
+
+## 📄 Lisensi
+
+MIT License - lihat [LICENSE](LICENSE) untuk detail.
+
+## 👤 Penulis
+
+**zuckdorsey**
+- GitHub: [@zuckdorsey](https://github.com/zuckdorsey)
+- Proyek: https://github.com/zuckdorsey/file-perermission-checker
+
+---
+
+**⚠️ Penafian**: Gunakan alat ini dengan risiko Anda sendiri. Selalu backup data penting sebelum membuat perubahan izin.
+
