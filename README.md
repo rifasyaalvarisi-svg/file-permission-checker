@@ -326,9 +326,10 @@ MIT License - lihat [LICENSE](LICENSE) untuk detail.
 
 ## 👤 Penulis
 
-**zuckdorsey**
-- GitHub: [@zuckdorsey](https://github.com/zuckdorsey)
-- Proyek: https://github.com/zuckdorsey/file-perermission-checker
+**rifasyaalvarisi-svg**
+- GitHub: [@rifasyaalvarisi-svg](https://github.com/rifasyaalvarisi-svg)
+- Proyek: https://github.com/rifasyaalvarisi-svg/file-permission-checker
+
 
 ---
 
